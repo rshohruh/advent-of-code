@@ -13,21 +13,19 @@ using namespace std;
 
 // #define with_testcases
 void t_main(){
-    vector<int> nums_l, nums_r;
+    vector<int> nums_l;
+    map<int, int> nums_r;
     int l_next, r_next;
     while(!cin.eof()){
         cin >> l_next >> r_next;
         nums_l.push_back(l_next);
-        nums_r.push_back(r_next);
+        nums_r[r_next] ++;
     }
-    sort(nums_l.begin(), nums_l.end());
-    sort(nums_r.begin(), nums_r.end());
-    int n = nums_l.size();
-    ll diff = 0;
-    for(int i = 0; i < n; ++i){
-        diff += abs(nums_l[i] - nums_r[i]);
+    ll similarity = 0;
+    for(int num: nums_l){
+        similarity += num * nums_r[num];
     }
-    cout << diff;
+    cout << similarity;
 }
 
 signed main(){
