@@ -13,19 +13,28 @@ using namespace std;
 
 // #define with_testcases
 void t_main(){
-    vector<int> nums_l;
-    map<int, int> nums_r;
-    int l_next, r_next;
-    while(!cin.eof()){
-        cin >> l_next >> r_next;
-        nums_l.push_back(l_next);
-        nums_r[r_next] ++;
+    int ans = 0;
+    string line;
+    while(getline(cin, line) && !line.empty()){
+        stringstream ss(line);
+        vector<int> v;
+        int num;
+        int mn_dif = INT_MAX, mx_dif = INT_MIN;
+        while(ss >> num){
+            v.push_back(num);
+        }
+        for(int i = 1; i < v.size(); ++i){
+            mn_dif = min(mn_dif, v[i] - v[i-1]);
+            mx_dif = max(mx_dif, v[i] - v[i-1]);
+        }
+        if(mn_dif < 0) {
+            swap(mn_dif, mx_dif);
+            mn_dif = mn_dif;
+            mx_dif = mx_dif;
+        }
+        if(mn_dif >= 1 && mx_dif <= 3 && mn_dif <= mx_dif) ans++;
     }
-    ll similarity = 0;
-    for(int num: nums_l){
-        similarity += num * nums_r[num];
-    }
-    cout << similarity;
+    cout << ans;
 }
 
 signed main(){
