@@ -27,26 +27,21 @@ void t_main(){
         return lines[i][j];
     };
     auto run = [&](int x, int y) -> void {
-        int dx[] = {1, -1, 0, 0, 1, 1, -1, -1};
-        int dy[] = {0, 0, 1, -1, 1, -1, 1, -1};
+        string str1;
+        str1 += ind(x-1, y-1);
+        str1 += ind(x, y);
+        str1 += ind(x+1, y+1);
 
-        for(int q = 0; q < 8; ++q){
-            string s;
-            int xx = x, yy = y;
-            for(int i = 0; i < 4; ++i){
-                s += lines[xx][yy];
-                xx += dx[q];
-                yy += dy[q];
-                if(xx >= lines.size() || yy >= lines[0].size() || xx < 0 || yy < 0){
-                    break;
-                }
-            }
-            if(s == "XMAS") ++ ans;
-        }
+        string str2;
+        str2 += ind(x-1, y+1);
+        str2 += ind(x, y);
+        str2 += ind(x+1, y-1);
+
+        if ((str1 == "MAS" || str1 == "SAM") && (str2 == "MAS" || str2 == "SAM")) ans++;
     };
     for(int i = 0; i < lines.size(); ++i){
         for(int j = 0; j < lines[i].size(); ++j){
-            if(lines[i][j] == 'X'){
+            if(lines[i][j] == 'A'){
                 run(i, j);
             }
         }
