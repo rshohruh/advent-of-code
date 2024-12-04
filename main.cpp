@@ -12,36 +12,46 @@ using namespace std;
 #define ll long long
 
 // #define with_testcases
-void t_main(){
-    int ans = 0;
-    string line;
-    while(getline(cin, line) && !line.empty()){
-        stringstream ss(line);
-        vector<int> nums;
-        int num;
-        while(ss >> num){
-            nums.push_back(num);
-        }
-        int ok = 0;
-        for(int t = 0; t < nums.size(); ++t){
-            int mn_dif = INT_MAX, mx_dif = INT_MIN;
-            int elem = nums[t];
-            nums.erase(nums.begin() + t);
-            for(int i = 1; i < nums.size(); ++i){
-                mn_dif = min(mn_dif, nums[i] - nums[i-1]);
-                mx_dif = max(mx_dif, nums[i] - nums[i-1]);
-            }
-            if(mn_dif < 0) {
-                swap(mn_dif, mx_dif);
-                mn_dif = -mn_dif;
-                mx_dif = -mx_dif;
-            }
-            if(mn_dif >= 1 && mx_dif <= 3 && mn_dif <= mx_dif) ok |= 1;
 
-            nums.insert(nums.begin() + t, elem);
-        }
-        ans += ok;
+void t_main(){
+
+    string line;
+    vector<string> lines;
+    while(getline(cin, line) && !line.empty()){
+        lines.push_back(line);
     }
+    int ans = 0;
+
+    auto ind = [&](int i, int j){
+        if(i >= lines.size() || j >= lines[0].size() || i < 0 || j < 0) return ' ';
+        return lines[i][j];
+    };
+    auto run = [&](int x, int y) -> void {
+        int dx[] = {1, -1, 0, 0, 1, 1, -1, -1};
+        int dy[] = {0, 0, 1, -1, 1, -1, 1, -1};
+
+        for(int q = 0; q < 8; ++q){
+            string s;
+            int xx = x, yy = y;
+            for(int i = 0; i < 4; ++i){
+                s += lines[xx][yy];
+                xx += dx[q];
+                yy += dy[q];
+                if(xx >= lines.size() || yy >= lines[0].size() || xx < 0 || yy < 0){
+                    break;
+                }
+            }
+            if(s == "XMAS") ++ ans;
+        }
+    };
+    for(int i = 0; i < lines.size(); ++i){
+        for(int j = 0; j < lines[i].size(); ++j){
+            if(lines[i][j] == 'X'){
+                run(i, j);
+            }
+        }
+    }
+
     cout << ans;
 }
 
