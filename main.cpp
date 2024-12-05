@@ -1,5 +1,8 @@
 // author: rshohruh
 
+#include <algorithm>
+#include <cstdio>
+#include <sstream>
 #pragma GCC optimize("Ofast")
 #include <bits/stdc++.h>
 
@@ -13,40 +16,36 @@ using namespace std;
 
 // #define with_testcases
 
+int mat[100][100];
 void t_main(){
-
     string line;
-    vector<string> lines;
     while(getline(cin, line) && !line.empty()){
-        lines.push_back(line);
+        int a, b;
+        sscanf(line.c_str(), "%d|%d", &a, &b);
+        mat[a][b] = 1;
     }
     int ans = 0;
+    while(getline(cin, line) && !line.empty()) {
+        stringstream ss(line);
+        int x;
+        vector<int> nums;
+        char ignore;
+        while(ss >> x) {
+            ss >> ignore;
+            nums.push_back(x);
+        }
 
-    auto ind = [&](int i, int j){
-        if(i >= lines.size() || j >= lines[0].size() || i < 0 || j < 0) return ' ';
-        return lines[i][j];
-    };
-    auto run = [&](int x, int y) -> void {
-        string str1;
-        str1 += ind(x-1, y-1);
-        str1 += ind(x, y);
-        str1 += ind(x+1, y+1);
-
-        string str2;
-        str2 += ind(x-1, y+1);
-        str2 += ind(x, y);
-        str2 += ind(x+1, y-1);
-
-        if ((str1 == "MAS" || str1 == "SAM") && (str2 == "MAS" || str2 == "SAM")) ans++;
-    };
-    for(int i = 0; i < lines.size(); ++i){
-        for(int j = 0; j < lines[i].size(); ++j){
-            if(lines[i][j] == 'A'){
-                run(i, j);
+        int count_swap = 0;
+        for(int i = 0; i < nums.size(); ++i){
+            for(int j = 0; j < i; ++j){
+                if(mat[nums[i]][nums[j]]){
+                    count_swap ++;
+                    swap(nums[i], nums[j]);
+                }
             }
         }
+        if(count_swap == 0) ans += nums[nums.size()/2];
     }
-
     cout << ans;
 }
 
