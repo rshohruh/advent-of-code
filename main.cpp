@@ -44,7 +44,7 @@ void t_main(){
                 }
             }
         }
-        if(count_swap == 0) ans += nums[nums.size()/2];
+        if(count_swap > 0) ans += nums[nums.size()/2];
     }
     cout << ans;
 }
