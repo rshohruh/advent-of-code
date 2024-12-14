@@ -7,6 +7,10 @@
 #endif
 using namespace std;
 
+void readInput(){
+
+}
+
 int partOne() {
 
     return 42;
@@ -19,6 +23,7 @@ int partTwo() {
 
 
 signed main(){
+    readInput();
     cout << "Part 1: " << partOne() << endl;
     cout << "Part 2: " << partTwo() << endl;
 }
